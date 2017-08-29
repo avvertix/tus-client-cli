@@ -5,23 +5,38 @@ const path = require('path');
 const fs = require('fs');
 const tus = require("tus-js-client");
 const mime = require('mime');
+const assignIn = require('lodash.assignin');
 
 
+/**
+ * 
+ * @param {string} data the string containing the metadata, in the form of key=value,key2=value2,...
+ */
+function metaToObject(data){
 
-    /**
-     * Handle the tus-client error event
-     */
-    
+    if(data.length === 0){
+        return {};
+    }
 
-    /**
-     * Handle the tus-client onChunkComplete event
-     */
-    
+    var obj = {};
 
-    /**
-     * Handle the tus-client success event
-     */
-    
+    var mapped = data.split(/,/).map(function(v){
+        var split = v.split(/=/);
+        if(split.length !== 2){
+            return null;
+        }
+
+        return split;
+    }).forEach(function(v){
+
+        if(v!==null){
+            obj[v[0]] = v[1];
+        }
+
+    });
+
+    return obj;
+}
 
 /**
  * Upload a file to a server via the Tus.io protocol
@@ -35,18 +50,20 @@ module.exports = function(file, server, command){
     
     try {
 
+        var metaOption = metaToObject(command.meta || "");
+        
         if(!fs.existsSync(file)){
             throw new Error(`File ${file} do not exists`);
         }
 
         var fileStream = fs.createReadStream(file);
         
-        var meta = {
+        var meta = assignIn({
             filename: path.basename(file),
             filesize: fs.statSync(file).size,
             filetype: mime.lookup(file),
-            upload_request_id: "Hello"
-        }
+            upload_request_id: "request-" + (new Date()).getTime(),
+        }, metaOption);
         
         Log.comment('Uploading', `${meta.filename} (${meta.filetype}, ${meta.filesize})`, 'to', server,'...');
 
@@ -78,9 +95,6 @@ module.exports = function(file, server, command){
 
         upload.start();
 
-        
-        
-            
     } catch (error) {
         Log.error(error.message);
     }

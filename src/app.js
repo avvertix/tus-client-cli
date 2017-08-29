@@ -26,6 +26,7 @@ program.version(Package.version)
 program
     .command('upload <file> <server>')
     .description('Upload a <file> to the Tus <server>')
+    .option('--meta [data]', 'Add a custom metadata to the upload. Is a key value map comma separated, e.g. "token=hello,request_id=counter"')
     .action(UploadCommand)
     .on('--help', function() {
         Log.text('  Arguments:');

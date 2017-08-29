@@ -6,9 +6,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "tus-js-client": "^1.4.3",
     "cli-color": "^1.2.0",
-    "commander": "~2.9.0"
+    "commander": "~2.9.0",
+    "lodash.assignin": "^4.2.0",
+    "tus-js-client": "^1.4.3"
   },
   "devDependencies": {
     "pkg": "~4.2.0"
@@ -28,5 +29,4 @@
       "node8-win-x64"
     ]
   }
-
 }
