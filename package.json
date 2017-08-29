@@ -1,0 +1,32 @@
+{
+  "name": "tus-bin-client",
+  "version": "0.1.0",
+  "description": "A Tus client as a binary file",
+  "main": "app.js",
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "tus-js-client": "^1.4.3",
+    "cli-color": "^1.2.0",
+    "commander": "~2.9.0"
+  },
+  "devDependencies": {
+    "pkg": "~4.2.0"
+  },
+  "scripts": {
+    "run": "node ./src/app.js",
+    "production": "pkg --out-dir=dist . "
+  },
+  "pkg": {
+    "assets": [
+      "resources/**/*",
+      "package.json"
+    ],
+    "targets": [
+      "node8-macos-x64",
+      "node8-linux-x64",
+      "node8-win-x64"
+    ]
+  }
+
+}
