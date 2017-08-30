@@ -1,9 +1,10 @@
 {
-  "name": "tus-bin-client",
+  "name": "tus-client",
   "version": "0.1.0",
-  "description": "A Tus client as a binary file",
-  "main": "app.js",
-  "author": "",
+  "description": "A Tus.io client... as a binary file",
+  "main": "src/app.js",
+  "bin": "src/app.js",
+  "author": "Alessio Vertemati",
   "license": "MIT",
   "dependencies": {
     "cli-color": "^1.2.0",
@@ -12,10 +13,13 @@
     "tus-js-client": "^1.4.3"
   },
   "devDependencies": {
+    "eslint": "^4.5.0",
     "pkg": "~4.2.0"
   },
   "scripts": {
     "run": "node ./src/app.js",
+    "lint": "eslint src/**/*",
+    "lint:fix": "eslint src/**/* --fix",
     "production": "pkg --out-dir=dist . "
   },
   "pkg": {

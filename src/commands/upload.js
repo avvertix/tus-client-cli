@@ -1,3 +1,4 @@
+/*eslint no-div-regex: "off"*/
 'use strict';
 
 const Log = require('../helpers/log');
@@ -9,8 +10,12 @@ const assignIn = require('lodash.assignin');
 
 
 /**
+ * Convert the expected meta option format into an object.
+ * 
+ * The meta options are key-values pair separated by a comma, like "key=value,key2=value2"
  * 
  * @param {string} data the string containing the metadata, in the form of key=value,key2=value2,...
+ * @return {Object} the converted key/value pairs
  */
 function metaToObject(data){
 
@@ -20,20 +25,23 @@ function metaToObject(data){
 
     var obj = {};
 
-    var mapped = data.split(/,/).map(function(v){
-        var split = v.split(/=/);
-        if(split.length !== 2){
-            return null;
-        }
+    data.
+        split(/,/).
+        map(function(v){
+            var split = v.split(/=/);
+            if(split.length !== 2){
+                return null;
+            }
 
-        return split;
-    }).forEach(function(v){
+            return split;
+        }).
+        forEach(function(v){
 
-        if(v!==null){
-            obj[v[0]] = v[1];
-        }
+            if(v!==null){
+                obj[v[0]] = v[1];
+            }
 
-    });
+        });
 
     return obj;
 }
@@ -44,7 +52,7 @@ function metaToObject(data){
  * @param {string} file the file to upload
  * @param {string} server the Tus server endpoint
  * @param {Object} command the command being executed (e.g. to get options)
- * @return {Promise}
+ * @return {void}
  */
 module.exports = function(file, server, command){
     
@@ -65,7 +73,7 @@ module.exports = function(file, server, command){
             upload_request_id: "request-" + (new Date()).getTime(),
         }, metaOption);
         
-        Log.comment('Uploading', `${meta.filename} (${meta.filetype}, ${meta.filesize})`, 'to', server,'...');
+        Log.comment('Uploading', `${meta.filename} (${meta.filetype}, ${meta.filesize})`, 'to', server, '...');
 
         var options = {
             endpoint: server,
@@ -73,16 +81,16 @@ module.exports = function(file, server, command){
             chunkSize: Math.max(5, Math.round(meta.filesize/10)),
             uploadSize: meta.filesize,
             metadata: meta,
-            onError: function handleUploadError(error) {
+            onError: function(error) {
                 Log.error('upload failed:', error.message);
         
                 fileStream.close();
             },
-            onChunkComplete: function handleUploadProgress(chunkSize, bytesUploaded, bytesTotal) {
+            onChunkComplete: function(chunkSize, bytesUploaded, bytesTotal) {
                 var percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
                 Log.info(`${bytesUploaded} / ${bytesTotal}`, percentage + "%");
             },
-            onSuccess: function handleUploadSuccess() {
+            onSuccess: function() {
                 Log.success('Upload completed.');
 
                 fileStream.close();
@@ -90,12 +98,12 @@ module.exports = function(file, server, command){
             }
         }
 
-
         var upload = new tus.Upload(fileStream, options);
 
         upload.start();
 
-    } catch (error) {
+    }
+ catch (error) {
         Log.error(error.message);
     }
 

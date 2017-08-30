@@ -1,29 +1,19 @@
+/* eslint no-console: 0 */
 'use strict';
 
 const clc = require('cli-color');
 
 /**
  * Log module
- * 
- * For a coherent output.
  */
 module.exports = {
 
     /**
-     * ...
+     * Write text in bright yellow
+     * 
+     * @return {void}
      */
-    comment: function(){
-        var args = Array.from(arguments);
-
-        var txt = args.map(function (el) {
-            return clc.yellowBright(el);
-        })
-
-        console.log(txt.join(" "));
-    },
-    
-    warning: function(){
-        var args = Array.from(arguments);
+    comment: function(...args){
 
         var txt = args.map(function (el) {
             return clc.yellowBright(el);
@@ -33,28 +23,45 @@ module.exports = {
     },
     
     /**
-     * ...
+     * Write a warning message.
+     * 
+     * @return {void}
      */
-    info: function(){
-        var args = Array.from(arguments);
+    warning: function(...args){
+
+        var txt = args.map(function (el) {
+            return clc.yellowBright(el);
+        })
+
+        console.log(txt.join(" "));
+    },
+    
+    /**
+     * Writes an informational message on stdout
+     * 
+     * @return {void}
+     */
+    info: function(...args){
 
         console.log(args.join(" "));
     },
     
     /**
-     * ...
+     * Writes a text, without formatting on stdout
+     * 
+     * @return {void}
      */
-    text: function(){
-        var args = Array.from(arguments);
+    text: function(...args){
 
         console.log(args.join(" "));
     },
 
     /**
-     * ...
+     * Write an error message on stderr. By default text is colored in red
+     * 
+     * @return {void}
      */
-    error: function(){
-        var args = Array.from(arguments);
+    error: function(...args){
 
         var txt = args.map(function (el) {
             return clc.red(el);
@@ -64,19 +71,18 @@ module.exports = {
     },
     
     /**
-     * ...
+     * Write a success message. The selected color is green
+     * 
+     * @return {void}
      */
-    success: function(){
-        var args = Array.from(arguments);
+    success: function(...args){
 
         var txt = args.map(function (el) {
             return clc.green(el);
         })
 
         console.log(txt.join(" "));
-    },
-
-    colors: clc
+    }
     
 };
 
