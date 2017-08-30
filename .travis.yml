@@ -1,0 +1,27 @@
+language: node_js
+node_js:
+  - '6'
+
+notifications:
+  email:
+    on_success: never
+
+
+install:
+  - travis_retry npm install
+
+script:
+  - ls
+
+before_deploy: npm run production
+
+deploy:
+  provider: releases
+  api_key: "${GITHUB_OAUTH}"
+  file: 
+    - "dist/tus-client-linux"
+    - "dist/tus-client-macos"
+    - "dist/tus-client-win.exe"
+  skip_cleanup: true
+  on:
+    tags: true
