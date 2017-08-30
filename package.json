@@ -1,6 +1,6 @@
 {
   "name": "tus-client",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Tus.io client... as a binary file",
   "main": "src/app.js",
   "bin": "src/app.js",
