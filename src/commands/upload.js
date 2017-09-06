@@ -68,22 +68,22 @@ module.exports = function(file, server, command){
         
         var meta = assignIn({
             filename: path.basename(file),
-            filesize: fs.statSync(file).size,
+            filesize: "" + fs.statSync(file).size.toString(),
             filetype: mime.lookup(file),
             upload_request_id: "request-" + (new Date()).getTime(),
         }, metaOption);
-        
-        Log.comment('Uploading', `${meta.filename} (${meta.filetype}, ${meta.filesize})`, 'to', server, '...');
 
+        Log.comment('Uploading', `${meta.filename} (${meta.filetype}, ${meta.filesize})`, 'to', server, '...');
+        
         var options = {
             endpoint: server,
             retryDelays: [0, 1000/*, 3000, 5000*/],
-            chunkSize: Math.max(5, Math.round(meta.filesize/10)),
+            chunkSize: Math.max(5, Math.round(meta.filesize/50)),
             uploadSize: meta.filesize,
             metadata: meta,
             onError: function(error) {
                 Log.error('upload failed:', error.message);
-        
+                
                 fileStream.close();
             },
             onChunkComplete: function(chunkSize, bytesUploaded, bytesTotal) {
@@ -92,18 +92,18 @@ module.exports = function(file, server, command){
             },
             onSuccess: function() {
                 Log.success('Upload completed.');
-
+                
                 fileStream.close();
-        
+                
             }
         }
-
+        
         var upload = new tus.Upload(fileStream, options);
-
+        
         upload.start();
-
+        
     }
- catch (error) {
+    catch (error) {
         Log.error(error.message);
     }
 
