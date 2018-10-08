@@ -19,7 +19,7 @@ program.version(Package.version).
         // add the what's new section to the --help output
         Log.comment('  What\'s new in', program.version(), ':');
         Log.comment();
-        Log.comment('   - First iteration of the Tus Upload CLI');
+        Log.comment('   - Changed chunk size handling');
         Log.comment();
     });
 
