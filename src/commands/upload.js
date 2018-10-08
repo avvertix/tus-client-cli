@@ -78,7 +78,7 @@ module.exports = function(file, server, command){
         var options = {
             endpoint: server,
             retryDelays: [0, 1000/*, 3000, 5000*/],
-            chunkSize: Math.max(5, Math.round(meta.filesize/50)),
+            chunkSize: Math.max(5242880, Math.round(meta.filesize/10)),
             uploadSize: meta.filesize,
             metadata: meta,
             onError: function(error) {

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.3.0] - 2018-10-08
+
+### Changed
+
+- Chunk size calculation, now is 5MB or 1/10th of the file, if bigger than 5MB
+
 ## [0.2.0] - 2017-09-06
 
 ### Fixed
