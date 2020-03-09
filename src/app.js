@@ -1,10 +1,4 @@
-/**
- * Tus Client CLI.
- * A command line based Tus.io protocol client
- * 
- * @author Alessio Vertemati <alessio@oneofftech.xyz>
- */
-/* global process */
+#!/usr/bin/env node
 'use strict';
 
 const program = require('commander');
