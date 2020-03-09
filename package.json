@@ -1,5 +1,5 @@
 {
-  "name": "tus-client",
+  "name": "@trimm/tus-client",
   "version": "0.3.0",
   "description": "A Tus.io client... as a binary file",
   "main": "src/app.js",
