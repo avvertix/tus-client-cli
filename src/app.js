@@ -15,12 +15,15 @@ program.version(Package.version).
         Log.comment();
         Log.comment('   - Changed chunk size handling');
         Log.comment();
+        Log.comment('   - Allow custom headers');
+        Log.comment();
     });
 
 program.
     command('upload <file> <server>').
     description('Upload a <file> to the Tus <server>').
     option('--meta [data]', 'Add a custom metadata to the upload. Is a key value map comma separated, e.g. "token=hello,request_id=counter"').
+    option('--headers [data]', 'Add a custom headers to the requests. Is a key value map comma separated, e.g. "authorization=bearer token,x-foo=bar"').
     action(UploadCommand).
     on('--help', function() {
         Log.text('  Arguments:');

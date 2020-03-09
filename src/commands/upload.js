@@ -10,14 +10,14 @@ const assignIn = require('lodash.assignin');
 
 
 /**
- * Convert the expected meta option format into an object.
+ * Convert the expected option format into an object.
  * 
  * The meta options are key-values pair separated by a comma, like "key=value,key2=value2"
  * 
- * @param {string} data the string containing the metadata, in the form of key=value,key2=value2,...
+ * @param {string} data the string containing the metadata or headers, in the form of key=value,key2=value2,...
  * @return {Object} the converted key/value pairs
  */
-function metaToObject(data){
+function keyValueToObject(data){
 
     if(data.length === 0){
         return {};
@@ -58,7 +58,8 @@ module.exports = function(file, server, command){
     
     try {
 
-        var metaOption = metaToObject(command.meta || "");
+        var metaOption = keyValueToObject(command.meta || "");
+        var headerOption = keyValueToObject(command.headers || "");
         
         if(!fs.existsSync(file)){
             throw new Error(`File ${file} do not exists`);
@@ -81,6 +82,7 @@ module.exports = function(file, server, command){
             chunkSize: Math.max(5242880, Math.round(meta.filesize/10)),
             uploadSize: meta.filesize,
             metadata: meta,
+            headers: headerOption,
             onError: function(error) {
                 Log.error('upload failed:', error.message);
                 
