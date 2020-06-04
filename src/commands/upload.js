@@ -94,7 +94,7 @@ module.exports = function(file, server, command){
             },
             onSuccess: function() {
                 Log.success('Upload completed.');
-                
+                Log.success(`fileuuid: ${upload.url.split('/').pop()}`);
                 fileStream.close();
                 
             }
